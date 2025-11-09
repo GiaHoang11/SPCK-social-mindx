@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mạng Xã Hội Mini</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <h1>
+    <a class="navbar-brand" href="./index.html">Trang chủ </a>
+  </h1>
+  <body>
+    <div class="app-container">
+      <h1>📱 Mạng Xã Hội Mini</h1>
+
+      <!-- Ô đăng bài -->
+      <div class="create-post">
+        <textarea id="postContent" placeholder="Bạn đang nghĩ gì?"></textarea>
+        <input type="file" id="postImages" accept="image/*" multiple />
+        <button id="postButton">Đăng bài</button>
+      </div>
+
+      <!-- Danh sách bài đăng -->
+      <div id="feed"></div>
+    </div>
+
+    <script src="post.js"></script>
+  </body>
+</html>
