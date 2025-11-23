@@ -19,4 +19,14 @@ formRegister.addEventListener("submit", (e) => {
   } else {
     alert("Tai khoan hoac mat khau khong dung!");
   }
+  // Lấy thông tin từ localStorage
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user) {
+    document.getElementById("userName").textContent = user.displayName;
+    document.getElementById("userEmail").textContent = user.email;
+  } else {
+    // Nếu chưa đăng nhập thì chuyển về trang login
+    window.location.href = "account.html";
+  }
 });

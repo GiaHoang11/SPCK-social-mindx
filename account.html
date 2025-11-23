@@ -59,23 +59,6 @@
       integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
       crossorigin="anonymous"
     ></script>
-     <script>
-      // Giả sử thông tin user được lưu trong localStorage sau khi đăng nhập
-      const user = JSON.parse(localStorage.getItem("user")) || {
-        name: "",
-        email: "",
-        phone: ""
-      };
-
-      // Hiển thị thông tin lên trang
-      document.getElementById("userName").textContent = user.name;
-      document.getElementById("userEmail").textContent = user.email;
-      document.getElementById("userPhone").textContent = user.phone;
-
-      // Nút chỉnh sửa
-      document.getElementById("editBtn").addEventListener("click", () => {
-        alert("Chức năng chỉnh sửa sẽ mở form cập nhật thông tin!");
-      });
-    </script>
+    
   </body>
 </html>
