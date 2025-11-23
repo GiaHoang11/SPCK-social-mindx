@@ -1,182 +1,76 @@
-/* style.css */
-body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f0f2f5;
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-}
-
-.app-container {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 500px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-  color: #1877f2;
-  margin-bottom: 20px;
-}
-
-/* Ô đăng bài */
-.create-post {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 25px;
-}
-
-textarea {
-  resize: none;
-  height: 80px;
-  border-radius: 8px;
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-#postButton {
-  background-color: #1877f2;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#postButton:hover {
-  background-color: #0f5fd6;
-}
-
-/* Bài đăng */
-.post {
-  background: #fff;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.post-time {
-  color: gray;
-  font-size: 13px;
-  margin-bottom: 8px;
-}
-
-.post img {
-  width: 100%;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 8px;
-  margin-top: 10px;
-}
-
-/* Khu vực hành động */
-.post-actions {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-}
-
-.post-actions button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #555;
-  font-size: 15px;
-  transition: 0.3s;
-}
-
-.post-actions button:hover {
-  color: #1877f2;
-  transform: scale(1.05);
-}
-
-/* Comment box */
-.comment-section {
-  margin-top: 10px;
-}
-
-.comment-section input {
-  width: 100%;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  margin-top: 5px;
-}
-
-.comment {
-  background: #f0f2f5;
-  padding: 6px 8px;
-  border-radius: 8px;
-  margin-top: 4px;
-  font-size: 14px;
-}
-
-.like-count {
-  color: #e11d48;
-  font-weight: bold;
-  font-size: 14px;
-}
-
-/* style.css */
-
-/* Toàn trang */
-body {
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f3f4f6;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-/* Thanh navbar */
-.navbar {
-  position: fixed; /* Giữ cố định trên đầu */
-  top: 0;
-  left: 0;
+header {
   width: 100%;
-  height: 60px;
-  background: white;
+  background: #ffffff;
+  padding: 15px 40px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+
+  border-bottom: 1px solid #ddd;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-/* Nhóm giữa */
-.nav-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Liên kết */
-.navbar a {
+.nav-left a,
+.nav-right a {
   text-decoration: none;
-  color: black;
+  margin-right: 20px;
+  font-size: 18px;
+  color: #333;
   font-weight: 500;
-  margin-left: 20px;
-  transition: 0.3s;
 }
 
-.navbar a:hover {
-  color: #1877f2;
+.nav-left a:hover,
+.nav-right a:hover {
+  color: #0d6efd;
+}
+body {
+  margin-top: 90px;
 }
 
-/* Để phần thân không bị che */
-body::before {
-  content: "";
-  display: block;
-  height: 60px; /* bằng chiều cao navbar */
+footer {
+  width: 100%;
+  background-color: #f8f9fa;
+  padding: 40px 60px;
+  margin-top: 60px;
+  border-top: 1px solid #ddd;
+}
+
+footer h2,
+footer h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+footer a {
+  text-decoration: none;
+  color: #0d6efd;
+  margin-right: 15px;
+  font-size: 16px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer .copyright {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
 }

@@ -1,53 +1,55 @@
-var formRegister = document.querySelector("#form-register");
-formRegister.addEventListener("submit", (e) => {
-  e.preventDefault();
-  console.log("Email", e.target[0].value);
-  console.log("password", e.target[1].value);
-  console.log("repeat password", e.target[2].value);
-  let email = e.target[0].value;
-  let password = e.target[1].value;
-  let rePassword = e.target[2].value;
+// Lấy phần tử form đăng ký
+const registerForm = document.querySelector("#registerForm");
 
-  let lowerCaseLetter = /[a-z]/g;
-  let upperCaseetter = /[A-Z]/g;
-  let numbers = /[0-9]/g;
-  if (!email) {
-    alert("Vui long nhap email");
-    return;
-  }
-  if (!password) {
-    alert("Vui long nhap password");
-    return;
-  }
-  if (!rePassword) {
-    alert("Vui long nhap rePassword");
-    return;
-  }
-  if (password.lenght < 8) {
-    alert("Mat khau phai tren 8 ki tu");
-    return;
-  }
-  if (!password.match(LowerCaseLetter)) {
-    alert("Mat khau phai co chua it nhat 1 chu cai");
-  }
-  if (!password.match(upperCaseLetter)) {
-    alert("Mat khau phai co chua it nhat 1 chu in hoa ");
-  }
-  if (!password.match(numbers)) {
-    alert("Mat khau phai co it nhat 1 chu so");
-  }
-  if (password !== rePassword) {
-    alert("Mat khau ban nhap khong trung voi mat khau nhap lai");
-  }
-  console.log("register thanh cong", email, password, rePassword);
+// Nếu form tồn tại thì thêm sự kiện submit
+if (registerForm) {
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Ngăn hành vi mặc định
 
-  const userData = JSON.parse(localStorage.getItem("userData")) || [];
-  const newUser = {
-    email,
-    password,
-    rePassword,
-  };
-  userData.push(newUser);
-  localStorage.setItem("userDate", JSON.stringify(userData));
-  window.location;
-});
+    // Lấy giá trị từ các ô input
+    const displayName = e.target.displayName.value.trim();
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value;
+
+    // Kiểm tra dữ liệu đầu vào
+    if (!displayName || !email || !password) {
+      alert("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+
+    // Kiểm tra định dạng email đơn giản
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Email không hợp lệ.");
+      return;
+    }
+
+    // Kiểm tra độ dài mật khẩu
+    if (password.length < 6) {
+      alert("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
+    }
+
+    // Hiển thị dữ liệu ra console (có thể thay bằng gửi đến server)
+    console.log("Đăng ký với:", { displayName, email, password });
+    // lấy dữ liệu userData được lưu trong Localstorage ra, đồng thời ép kiểu về dạng json để trình duyệt hiểu
+    // và cũng như dễ tương tác hơn
+    const userData = JSON.parse(localStorage.getItem("userData")) || [];
+    // kiểm tra xem email đã được đăng kí chưa
+    const emailExists = userData.find((user) => user.email === email);
+    if (emailExists) {
+      alert("Email đã được đăng kí, vui lòng sử dụng email khác");
+      return;
+    }
+    // nếu chưa thì thêm user mới vào mảng userData
+    const newUser = {
+      email,
+      password,
+      displayName,
+    };
+    userData.push(newUser);
+    // sau đó lưu mảng userData đã được thêm user mới vào lại localStorage
+    localStorage.setItem("userData", JSON.stringify(userData));
+    window.location.href = "login.html"; // tự động di chuyển về trang login
+  });
+}

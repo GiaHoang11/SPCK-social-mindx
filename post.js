@@ -18,7 +18,6 @@ postButton.addEventListener("click", () => {
 
   const time = new Date().toLocaleString();
 
-  // Hiển thị nhiều ảnh
   let imageHTML = "";
   if (files.length > 0) {
     imageHTML = `<div class="image-grid">`;
@@ -94,4 +93,43 @@ function addPostFunctionality(post) {
       post.remove();
     }
   });
+  document.getElementById("postButton").addEventListener("click", function () {
+    const content = document.getElementById("postContent").value;
+
+    if (!content.trim()) {
+      alert("Vui lòng nhập nội dung!");
+      return;
+    }
+
+    // Lấy danh sách bài cũ từ localStorage
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+    // Thêm bài mới
+    posts.push({
+      content: content,
+      time: new Date().toLocaleString(),
+    });
+
+    // Lưu lại vào localStorage
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    alert("Đăng bài thành công!");
+    document.getElementById("postContent").value = "";
+  });
+
+  // Hiển thị lại bài đã đăng khi quay lại post.html
+  window.onload = function () {
+    let posts = JSON.parse(localStorage.getItem("posts")) || [];
+    let feed = document.getElementById("feed");
+
+    posts.forEach((post) => {
+      let div = document.createElement("div");
+      div.className = "post";
+      div.innerHTML = `
+        <p class="post-time">${post.time}</p>
+        <p>${post.content}</p>
+      `;
+      feed.appendChild(div);
+    });
+  };
 }
