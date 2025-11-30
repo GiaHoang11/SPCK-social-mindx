@@ -1,32 +1,38 @@
-var formRegister = document.querySelector("#form-login");
-formRegister.addEventListener("submit", (e) => {
-  e.preventDefault();
-  let email = e.target[0].value;
-  let password = e.target[1].value;
-  console.log("Email", e.target[0].value);
-  console.log("password", e.target[1].value);
-  console.log(email, password);
+// login.js
 
-  const userData = JSON.parse(localStorage.getItem("userData")) || [];
-  const userExists = userData.find(
-    (user) => user.email === email && user.password === password
-  );
+document.addEventListener("DOMContentLoaded", () => {
+  const formLogin = document.getElementById("form-login");
 
-  if (userExists) {
-    console.log("found user", userExists);
-    localStorage.setItem("currentUser", JSON.stringify(userExists));
+  formLogin.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Lấy dữ liệu từ form
+    const email = document.getElementById("form2Example18").value.trim();
+    const password = document.getElementById("form2Example28").value.trim();
+
+    // Kiểm tra dữ liệu nhập
+    if (!email || !password) {
+      alert("Vui lòng nhập đầy đủ email và mật khẩu!");
+      return;
+    }
+
+    // Giả sử kiểm tra mật khẩu (ở đây chỉ demo, sau này có thể kết nối server)
+    // Ví dụ: mật khẩu phải có ít nhất 6 ký tự
+    if (password.length < 6) {
+      alert("Mật khẩu phải có ít nhất 6 ký tự!");
+      return;
+    }
+
+    // Tạo object user
+    const user = {
+      displayName: email.split("@")[0], // lấy phần trước @ làm tên hiển thị
+      email: email,
+    };
+
+    // Lưu vào localStorage
+    localStorage.setItem("user", JSON.stringify(user));
+
+    // Chuyển hướng sang account.html
     window.location.href = "account.html";
-  } else {
-    alert("Tai khoan hoac mat khau khong dung!");
-  }
-  // Lấy thông tin từ localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  if (user) {
-    document.getElementById("userName").textContent = user.displayName;
-    document.getElementById("userEmail").textContent = user.email;
-  } else {
-    // Nếu chưa đăng nhập thì chuyển về trang login
-    window.location.href = "account.html";
-  }
+  });
 });

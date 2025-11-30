@@ -1,135 +1,157 @@
-// script.js
+// Lấy phần tử HTML
 const postButton = document.getElementById("postButton");
 const postContent = document.getElementById("postContent");
 const postImages = document.getElementById("postImages");
-const feed = document.getElementById("feed");
 
+// Khi nhấn Đăng Bài
 postButton.addEventListener("click", () => {
   const text = postContent.value.trim();
   const files = Array.from(postImages.files);
 
   if (!text && files.length === 0) {
-    alert("Vui lòng nhập nội dung hoặc chọn ảnh!");
+    alert("Vui lòng nhập nội dung hoặc thêm ảnh!");
     return;
   }
 
-  const postDiv = document.createElement("div");
-  postDiv.classList.add("post");
-
-  const time = new Date().toLocaleString();
-
-  let imageHTML = "";
+  let imageList = [];
   if (files.length > 0) {
-    imageHTML = `<div class="image-grid">`;
     files.forEach((file) => {
-      const imgURL = URL.createObjectURL(file);
-      imageHTML += `<img src="${imgURL}" alt="post image">`;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        imageList.push(e.target.result);
+
+        if (imageList.length === files.length) {
+          savePost(text, imageList);
+        }
+      };
+      reader.readAsDataURL(file);
     });
-    imageHTML += `</div>`;
+  } else {
+    savePost(text, imageList);
   }
+});
 
-  postDiv.innerHTML = `
-    <div class="post-time">${time}</div>
-    <p>${text}</p>
-    ${imageHTML}
+function savePost(text, images) {
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-    <div class="post-actions">
-      <button class="like-btn">👍 Thích (<span class="like-count">0</span>)</button>
-      <button class="comment-btn">💬 Bình luận</button>
-      <button class="delete-btn">🗑️ Xóa</button>
-    </div>
+  posts.unshift({
+    id: Date.now(),
+    content: text,
+    images: images,
+    time: new Date().toLocaleString(),
+    likes: 0,
+    comments: [],
+  });
 
-    <div class="comment-section" style="display:none;">
-      <input type="text" placeholder="Viết bình luận...">
-      <div class="comments"></div>
-    </div>
-  `;
-
-  feed.prepend(postDiv);
+  localStorage.setItem("posts", JSON.stringify(posts));
 
   postContent.value = "";
   postImages.value = "";
 
-  addPostFunctionality(postDiv);
-});
+  window.location.href = "index.html";
+}
 
-function addPostFunctionality(post) {
-  const likeBtn = post.querySelector(".like-btn");
-  const commentBtn = post.querySelector(".comment-btn");
-  const deleteBtn = post.querySelector(".delete-btn");
-  const commentSection = post.querySelector(".comment-section");
-  const commentInput = commentSection.querySelector("input");
-  const commentList = commentSection.querySelector(".comments");
-  const likeCount = post.querySelector(".like-count");
+// Hiển thị bài khi đang ở post.html
+window.onload = function () {
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  let feed = document.getElementById("feed");
 
-  let likes = 0;
+  posts.forEach((post) => {
+    let div = document.createElement("div");
+    div.className = "post";
 
-  // Like
+    let imgHTML = "";
+    if (post.images && post.images.length > 0) {
+      imgHTML = `<div class="image-grid">`;
+      post.images.forEach((src) => {
+        imgHTML += `<img src="${src}" alt="post image">`;
+      });
+      imgHTML += `</div>`;
+    }
+
+    div.innerHTML = `
+      <p class="post-time">${post.time}</p>
+      <p>${post.content}</p>
+      ${imgHTML}
+
+      <div class="post-actions">
+        <button class="like-btn">👍 Thích (<span class="like-count">${post.likes}</span>)</button>
+        <button class="comment-btn">💬 Bình luận</button>
+        <button class="delete-btn">🗑️ Xóa</button>
+      </div>
+
+      <div class="comment-section" style="display:none;">
+        <input type="text" class="comment-input" placeholder="Viết bình luận...">
+        <div class="comments"></div>
+      </div>
+    `;
+
+    feed.appendChild(div);
+
+    addFunctions(div, post.id);
+  });
+};
+
+// ⭐ HÀM THÊM CHỨC NĂNG LIKE – COMMENT – DELETE
+function addFunctions(postDiv, postId) {
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  const likeBtn = postDiv.querySelector(".like-btn");
+  const likeCount = postDiv.querySelector(".like-count");
+  const commentBtn = postDiv.querySelector(".comment-btn");
+  const deleteBtn = postDiv.querySelector(".delete-btn");
+  const commentSection = postDiv.querySelector(".comment-section");
+  const commentInput = postDiv.querySelector(".comment-input");
+  const commentList = postDiv.querySelector(".comments");
+
+  let selectedPost = posts.find((p) => p.id === postId);
+
+  // LIKE
   likeBtn.addEventListener("click", () => {
-    likes++;
-    likeCount.textContent = likes;
+    selectedPost.likes++;
+    likeCount.textContent = selectedPost.likes;
+
+    localStorage.setItem("posts", JSON.stringify(posts));
   });
 
-  // Hiện khung comment
+  // HIỆN / ẨN COMMENT
   commentBtn.addEventListener("click", () => {
     commentSection.style.display =
       commentSection.style.display === "none" ? "block" : "none";
   });
 
-  // Gửi comment khi nhấn Enter
+  // THÊM COMMENT
   commentInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter" && commentInput.value.trim() !== "") {
-      const newComment = document.createElement("div");
-      newComment.classList.add("comment");
-      newComment.textContent = commentInput.value;
-      commentList.appendChild(newComment);
+      const newComment = commentInput.value.trim();
+
+      selectedPost.comments.push(newComment);
+      localStorage.setItem("posts", JSON.stringify(posts));
+
+      let cmt = document.createElement("div");
+      cmt.classList.add("comment");
+      cmt.textContent = newComment;
+
+      commentList.appendChild(cmt);
       commentInput.value = "";
     }
   });
 
-  // Xóa bài đăng
+  // XOÁ BÀI
   deleteBtn.addEventListener("click", () => {
     if (confirm("Bạn có chắc muốn xóa bài này?")) {
-      post.remove();
+      let newPosts = posts.filter((p) => p.id !== postId);
+      localStorage.setItem("posts", JSON.stringify(newPosts));
+
+      postDiv.remove();
     }
   });
-  document.getElementById("postButton").addEventListener("click", function () {
-    const content = document.getElementById("postContent").value;
 
-    if (!content.trim()) {
-      alert("Vui lòng nhập nội dung!");
-      return;
-    }
-
-    // Lấy danh sách bài cũ từ localStorage
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-
-    // Thêm bài mới
-    posts.push({
-      content: content,
-      time: new Date().toLocaleString(),
-    });
-
-    // Lưu lại vào localStorage
-    localStorage.setItem("posts", JSON.stringify(posts));
-
-    alert("Đăng bài thành công!");
-    document.getElementById("postContent").value = "";
+  // HIỂN THỊ COMMENT CŨ
+  selectedPost.comments.forEach((c) => {
+    let cmt = document.createElement("div");
+    cmt.classList.add("comment");
+    cmt.textContent = c;
+    commentList.appendChild(cmt);
   });
-
-  // Hiển thị lại bài đã đăng khi quay lại post.html
-  window.onload = function () {
-    let posts = JSON.parse(localStorage.getItem("posts")) || [];
-    let feed = document.getElementById("feed");
-
-    posts.forEach((post) => {
-      let div = document.createElement("div");
-      div.className = "post";
-      div.innerHTML = `
-        <p class="post-time">${post.time}</p>
-        <p>${post.content}</p>
-      `;
-      feed.appendChild(div);
-    });
-  };
 }

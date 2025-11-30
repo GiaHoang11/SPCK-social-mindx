@@ -28,9 +28,42 @@
                 class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4"
                 style="color: #709085"
               ></i>
-              <h1>
-                <a class="navbar-brand" href="./index.html">Trang chủ </a>
-              </h1>
+
+              <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                  <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerDemo03"
+                    aria-controls="navbarTogglerDemo03"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <a class="navbar-brand" href="./index.html">Trang chủ</a>
+                  <div
+                    class="collapse navbar-collapse"
+                    id="navbarTogglerDemo03"
+                  >
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link" href="./post.html">Đăng bài</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="./register.html">Đăng kí</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="./login.html">Đăng nhập</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="./account.html">Tài khoản</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
             </div>
 
             <div
@@ -104,9 +137,33 @@
       <!-- place navbar here -->
     </header>
     <main></main>
-    <footer>
-      <!-- place footer here -->
+    <footer class="footer bg-light mt-5">
+      <div class="footer-container d-flex justify-content-around flex-wrap p-4">
+        <div class="footer-section">
+          <h3>Về Chúng Tôi</h3>
+          <p>Trang web chia sẻ bài đăng, hình ảnh và kết nối cộng đồng.</p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Liên Hệ</h3>
+          <p>Email: hoanggia1810pgp@gmail.com</p>
+          <p>Phone: +84 961 818 216</p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Theo dõi</h3>
+          <p>
+            <a href="#">Facebook</a> | <a href="#">Instagram</a> |
+            <a href="#">YouTube</a>
+          </p>
+        </div>
+      </div>
+
+      <p class="footer-bottom text-center py-3 mb-0">
+        © 2025 YourWebsite. All rights reserved.
+      </p>
     </footer>
+
     <!-- Bootstrap JavaScript Libraries -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
