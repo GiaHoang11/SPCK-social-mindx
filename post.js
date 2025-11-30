@@ -34,7 +34,7 @@ postButton.addEventListener("click", () => {
 function savePost(text, images) {
   let posts = JSON.parse(localStorage.getItem("posts")) || [];
 
-  posts.unshift({
+  posts.splice(0, 0, {
     id: Date.now(),
     content: text,
     images: images,
@@ -48,7 +48,7 @@ function savePost(text, images) {
   postContent.value = "";
   postImages.value = "";
 
-  window.location.href = "index.html";
+  window.location.reload();
 }
 
 // Hiển thị bài khi đang ở post.html
